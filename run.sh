@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Se compila el proyecto con el perfil docker
-mvn clean package -Pdocker -DskipTests
+sudo mvn clean package -Pdocker -DskipTests
 
 # Se detienen y eliminan los contenedores existentes
 docker-compose stop
