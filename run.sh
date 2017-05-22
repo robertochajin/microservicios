@@ -4,8 +4,8 @@
 mvn clean package -Pdocker
 
 # Se detienen y eliminan los contenedores existentes
-docker-compose stop
-docker-compose rm -f
+#docker-compose stop
+#docker-compose rm -f
 
 #if [ "$(curl --silent 192.168.99.100:8761/health 2>&1 | grep -q '\"status\":\"UP\"'; echo $?)" = 0 ]; then
 #    #docker-compose up -d auth-service
