@@ -8,7 +8,7 @@ mvn clean package -Pdocker -DskipTests
 #docker-compose rm -f
 
 if [ "$(curl --silent 192.168.99.100:8761/health 2>&1 | grep -q '\"status\":\"UP\"'; echo $?)" = 0 ]; then
-    docker-compose up -d auth-service
+    #docker-compose up -d auth-service
     docker-compose up -d edge-service
     docker-compose up -d user-service
 fi
