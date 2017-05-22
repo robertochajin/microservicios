@@ -1,0 +1,40 @@
+## YAML Template.
+---
+spring:
+  application:
+    name: user-service
+    
+server:
+  port: 9000
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+      
+security:
+  oauth2:
+    resource:
+      userInfoUri: http://edge-service:8080/uaa/user  
+      tokenInfoUri: http://edge-service:8080/uaa/oauth/check_token
+    client:
+      client-id: acme
+      client-secret: acmesecret
+      
+---
+spring:
+  profiles: docker
+
+server:
+  port: ${SERVICE_PORT}
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: ${REGISTRY_URL}       

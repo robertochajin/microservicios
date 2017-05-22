@@ -1,0 +1,45 @@
+## YAML Template.
+---
+spring:
+    application:
+        name: edge-service
+        
+server:
+  port: 8080
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+      
+zuul:
+    routes:
+        hystrix-dashboard:
+            path: /hystrix/**
+            url: http://hystrix-service:8888/hystrix
+        uaa-service:
+            path: /uaa/**
+            sensitiveHeaders:
+            url: http://auth-service:9999/uaa
+        user-service:
+            path: /usuario/**
+            sensitiveHeaders:
+            url: http://user-service:9000/testuser
+      
+---
+spring:
+  profiles: docker
+
+server:
+  port: ${SERVICE_PORT}
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: ${REGISTRY_URL}  

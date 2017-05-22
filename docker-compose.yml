@@ -1,0 +1,48 @@
+## YAML Template.
+---
+version: "2"
+services:
+    discovery-service:
+        image: ciberdix/discovery
+        environment:
+            SERVICE_HOST: discovery
+            SERVICE_PORT: 8761
+        ports:
+            - 8761:8761
+            
+    auth-service:
+        image: ciberdix/auth
+        environment:
+            SERVICE_PORT: 9999
+            REGISTRY_URL: http://discovery-service:8761/eureka
+        links:
+            - discovery-service:discovery-service
+            
+    hystrix-service:
+        image: ciberdix/hystrix-dashboard
+        environment:
+            SERVICE_PORT: 8888
+            REGISTRY_URL: http://discovery-service:8761/eureka
+        links:
+            - discovery-service:discovery-service
+            
+    edge-service:
+        image: ciberdix/edge
+        environment:
+            SERVICE_PORT: 8080
+            REGISTRY_URL: http://discovery-service:8761/eureka
+        ports:
+            - 8080:8080
+        links:
+            - discovery-service:discovery-service
+            - auth-service:auth-service
+            
+    user-service:
+        image: ciberdix/user
+        environment:
+            SERVICE_PORT: 9000
+            REGISTRY_URL: http://discovery-service:8761/eureka
+        links:
+            - discovery-service:discovery-service
+            - edge-service:edge-service
+            

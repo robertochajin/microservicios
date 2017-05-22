@@ -1,0 +1,43 @@
+## YAML Template.
+---
+spring:
+    application:
+        name: uaa-service
+        
+server:
+    port: 9999
+    context-path: /uaa
+#    use-forward-headers: false
+    
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+      
+security:
+#  basic:
+#    enabled: false
+  user:
+    password: password
+#  ignored: /css/**,/js/**,/favicon.ico,/webjars/**
+
+management:
+  security:
+    enabled: false  
+---
+spring:
+  profiles: docker
+
+server:
+  port: ${SERVICE_PORT}
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: ${REGISTRY_URL}  
