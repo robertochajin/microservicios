@@ -29,10 +29,10 @@ services:
     edge-service:
         image: ciberdix/edge
         environment:
-            SERVICE_PORT: 8080
+            SERVICE_PORT: 8181
             REGISTRY_URL: http://discovery-service:8761/eureka
         ports:
-            - 8080:8080
+            - 8181:8181
         links:
             - discovery-service:discovery-service
             - auth-service:auth-service
